@@ -41,15 +41,16 @@ def show(image):
 
 
 def log_reg_driver(images_train, labels_train, images_test, labels_test):
-    # iterations = [10]
+    iterations = [10]
     # iterations = [10, 25, 50, 100]
     # iterations = [10, 30, 50, 70, 100]
-    iterations = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    # iterations = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
     scores = []
     for n_iter in iterations:
         print("Number of iterations: ", n_iter)
         logi = LogisticRegressionOVA(n_iter).fit(images_train, labels_train)
+        # logi = LogisticRegressionOVA(n_iter).fit(images_train[:30000:], labels_train[:30000:])
         scores.append(logi.score(images_test, labels_test))
 
     pyplot.plot(iterations, scores, 'r--')
@@ -63,7 +64,7 @@ def knn_driver(images_train, labels_train, images_test, labels_test):
     batches = len(images_test) // batch_size
     ks = [1, 3, 5, 10, 30, 50, 70, 80, 90, 100]
     # ks = [1, 10, 50, 70, 90, 100]
-    # ks = [100]
+    ks = [100]
     accuracy = []
     for k in ks:
         print("For K = ",k)
