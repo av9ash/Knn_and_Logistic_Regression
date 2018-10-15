@@ -3,7 +3,8 @@ import numpy as np
 
 
 class LogisticRegressionOVA(object):
-    def __init__(self, alpha=0.1, n_iter=50):
+    def __init__(self, alpha=0.00001, n_iter=50):
+        # alpha is the step size toward the target
         self.alpha = alpha
         self.n_iter = n_iter
         self.weight = []
@@ -11,18 +12,23 @@ class LogisticRegressionOVA(object):
     def fit(self, data_matrix, label_matrix):
         data_matrix = np.insert(data_matrix, 0, 1, axis=1)
 
-        for i in np.unique(label_matrix):
+        # for i in np.unique(label_matrix):
+        # Just because we know all labels we can use this to optimize a bit
+        for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            # implementation of OVA set label i as 1 and all other as 0
             label_copy = np.where(label_matrix == i, 1, 0)
-            weight = np.ones(data_matrix.shape[1])
-            self.grad_ascent(data_matrix, label_copy, weight, i)
+            self.grad_ascent(data_matrix, label_copy, i)
         return self
 
-    def grad_ascent(self, data_matrix, label_copy, weight, i):
-        rows = data_matrix.shape[0]
+    def grad_ascent(self, data_matrix, label_copy, i):
+        weight = np.ones(data_matrix.shape[1])
         for _ in range(self.n_iter):
             output = data_matrix.dot(weight)
             errors = label_copy - self.__sigmoid__(output)
-            weight += self.alpha / rows * errors.dot(data_matrix)
+            # gradient ascent aims at maximizing objective function
+            # θj = θj + α (∂/∂θj(J(θ)))
+            delta_w = self.alpha * errors.dot(data_matrix)
+            weight += delta_w
         self.weight.append((weight, i))
 
     def predict(self, data_matrix):
@@ -34,5 +40,6 @@ class LogisticRegressionOVA(object):
     def score(self, data_matrix, label):
         return sum(self.predict(data_matrix) == label) / len(label)
 
+    # hypothesis function g(θ^Tx)
     def __sigmoid__(self, x):
         return 1 / (1 + np.exp(-x))
