@@ -63,6 +63,7 @@ def log_reg_driver(images_train, labels_train, images_test, labels_test):
 
 def knn_driver(images_train, labels_train, images_test, labels_test):
     knn = KNN(images_train, labels_train)
+    # created batches to avoid Memory Error
     batch_size = 200
     batches = len(images_test) // batch_size
 
