@@ -9,18 +9,17 @@ class KNN(object):
         self.training_data = training_data
         self.training_labels = training_labels
 
-    def predict(self, testing_data, k):
-        dists = self.compute_distances(testing_data)
+    def predict(self, dists, k):
+        # dists = self.compute_distances(testing_data)
 
         num_test = dists.shape[0]
         y_pred = np.zeros(num_test)
+
         for i in range(num_test):
+
             labels = self.training_labels[np.argsort(dists[i, :])].flatten()
-            # find k nearest lables
-            k_closest_y = labels[:k]
-            # out of these k nearest labels which one is most common
-            # break ties by selecting smaller label
-            c = Counter(k_closest_y)
+            k_closest_y = labels[:k]  # find k nearest lables
+            c = Counter(k_closest_y)  # get the most common neighbor,chosse smaller if tie
             y_pred[i] = c.most_common(1)[0][0]
 
         return y_pred
