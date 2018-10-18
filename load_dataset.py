@@ -42,7 +42,7 @@ def show(image):
 
 
 def log_reg_driver(images_train, labels_train, images_test, labels_test):
-    iterations = [10]
+    iterations = [i for i in range(1, 100)]
     # iterations = [10, 25, 50, 100]
     # iterations = [10, 30, 50, 70, 100]
     # iterations = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
