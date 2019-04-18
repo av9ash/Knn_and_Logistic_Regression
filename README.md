@@ -9,11 +9,17 @@ Only third party libraries allowed are numpy, scipy and matplotlib.
 KNN:
 
 Creates class object with training data and labels.
+
 Create batches of testing data as knn tends to fill memmory
+
 Compute distances and store in a list of test images (unlabeled) from training images (labeled). Do this for all batches.
+
 Predict the class of training image by taking vote from nearest neighbors.
+
 Sort the distances list on basis of distance b/w testing point and all the training data.
+
 Pick the first K least values from distance list
+
 Assign the label of most common value in firt K values.
 
 
